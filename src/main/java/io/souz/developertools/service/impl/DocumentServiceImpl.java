@@ -5,8 +5,6 @@ import io.souz.developertools.service.DocumentService;
 import org.springframework.stereotype.Service;
 
 import java.util.Random;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @Service
 public class DocumentServiceImpl implements DocumentService {
@@ -37,10 +35,7 @@ public class DocumentServiceImpl implements DocumentService {
     public Boolean validateDocument(Document document) {
         String documentNumber = document.getDocument();
 
-        Pattern pattern = Pattern.compile("(\\d)\\1{10}");
-        Matcher matcher = pattern.matcher(documentNumber);
-
-        if (matcher.matches()) {
+        if (documentNumber.matches("(\\d)\\1{10}")) {
             return false;
         }
 

@@ -9,9 +9,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
 @RestController
@@ -32,10 +29,7 @@ public class DocumentController implements BaseController, DocumentApi {
             throw new BadRequestException("Document is required");
         }
 
-        Pattern pattern = Pattern.compile("^([0-9]{11}|[0-9]{14})$");
-        Matcher matcher = pattern.matcher(document.getDocument());
-
-        if (!matcher.matches()) {
+        if (!document.getDocument().matches("^([0-9]{11}|[0-9]{14})$")) {
             throw new BadRequestException("Document is invalid");
         }
 
