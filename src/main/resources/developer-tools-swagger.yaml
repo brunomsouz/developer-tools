@@ -1,0 +1,101 @@
+swagger: "2.0"
+info:
+  description: "Tools for developers"
+  version: "1.0.0"
+  title: "Developer Tools"
+  contact:
+    email: "brunomsouz@gmail.com"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "souz.io"
+basePath: "/developer-tools/v1"
+schemes:
+  - "http"
+paths:
+  /document/{documentType}:
+    get:
+      summary: "Generate a random document number"
+      description: "Generate a random document number (CPF/CNPJ)"
+      operationId: "generateDocument"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "documentType"
+          in: "path"
+          description: "Type of document to be generated"
+          required: true
+          type: "string"
+          enum:
+            - "consumer"
+            - "business"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/Document"
+        "400":
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/Document"
+        "500":
+          description: "Internal server error"
+          schema:
+            $ref: "#/definitions/Error"
+        default:
+          description: "Unexpected error"
+          schema:
+            $ref: "#/definitions/Error"
+    post:
+      summary: "Validate a document number"
+      description: "Validate a document number (CPF/CNPJ)"
+      operationId: "validateDocument"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "documentType"
+          in: "path"
+          description: "Type of document to be validated"
+          required: true
+          type: "string"
+          enum:
+            - "consumer"
+            - "business"
+        - name: "documentNumber"
+          in: "body"
+          description: "Document number to be validated"
+          required: true
+          schema:
+            $ref: "#/definitions/Document"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            type: "boolean"
+        "400":
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/Document"
+        "500":
+          description: "Internal server error"
+          schema:
+            $ref: "#/definitions/Error"
+        default:
+          description: "Unexpected error"
+          schema:
+            $ref: "#/definitions/Error"
+definitions:
+  Document:
+    type: "object"
+    properties:
+      document:
+        type: "string"
+  Error:
+    type: "object"
+    properties:
+      message:
+        type: "string"
