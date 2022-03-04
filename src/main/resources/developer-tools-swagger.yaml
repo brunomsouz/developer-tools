@@ -92,7 +92,7 @@ definitions:
   Document:
     type: "object"
     properties:
-      document:
+      documentNumber:
         type: "string"
   Error:
     type: "object"
