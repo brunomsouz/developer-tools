@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import java.util.Random;
 
 @Service
-public class DocumentServiceImpl implements DocumentService {
+public class ConsumerDocumentService implements DocumentService {
 
     @Override
     public Document generateDocument() {
@@ -19,21 +19,16 @@ public class DocumentServiceImpl implements DocumentService {
             builder.append(random.nextInt(10));
         }
 
-        int firstVerifier = this.generateFirstVerifier(builder.toString());
-
-        builder.append(firstVerifier);
-
-        int secondVerifier = this.generateSecondVerifier(builder.toString());
-
-        builder.append(secondVerifier);
+        builder.append(this.generateFirstVerifier(builder.toString()));
+        builder.append(this.generateSecondVerifier(builder.toString()));
 
         return new Document()
-                .document(builder.toString());
+                .documentNumber(builder.toString());
     }
 
     @Override
     public Boolean validateDocument(Document document) {
-        String documentNumber = document.getDocument();
+        String documentNumber = document.getDocumentNumber();
 
         if (documentNumber.matches("(\\d)\\1{10}")) {
             return false;
@@ -53,13 +48,7 @@ public class DocumentServiceImpl implements DocumentService {
             sum += Character.getNumericValue(document.charAt(i)) * (10 - i);
         }
 
-        int verifier = (sum * 10) % 11;
-
-        if (verifier > 9) {
-            verifier = 0;
-        }
-
-        return verifier;
+        return this.calculateVerifierFromSum(sum);
     }
 
     private int generateSecondVerifier(String document) {
@@ -69,6 +58,10 @@ public class DocumentServiceImpl implements DocumentService {
             sum += Character.getNumericValue(document.charAt(i)) * (11 - i);
         }
 
+        return this.calculateVerifierFromSum(sum);
+    }
+
+    private int calculateVerifierFromSum(int sum) {
         int verifier = (sum * 10) % 11;
 
         if (verifier > 9) {
