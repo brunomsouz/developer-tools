@@ -26,11 +26,11 @@ public class DocumentController implements BaseController, DocumentApi {
 
     public ResponseEntity<Boolean> validateDocument(@PathVariable("documentType") String documentType, @RequestBody Document document) {
         if (isBlank(document.getDocumentNumber())) {
-            throw new BadRequestException("Document is required");
+            throw new BadRequestException("1");
         }
 
         if (!document.getDocumentNumber().matches("^([0-9]{11}|[0-9]{14})$")) {
-            throw new BadRequestException("Document is invalid");
+            throw new BadRequestException("2");
         }
 
         return ResponseEntity.ok(documentService.validateDocument(document));
