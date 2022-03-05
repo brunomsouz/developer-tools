@@ -16,7 +16,7 @@ paths:
   /document/{documentType}:
     get:
       summary: "Generate a random document number"
-      description: "Generate a random document number (CPF/CNPJ)"
+      description: "Generate a random document number from types available"
       operationId: "generateDocument"
       consumes:
         - "application/json"
@@ -29,8 +29,8 @@ paths:
           required: true
           type: "string"
           enum:
-            - "consumer"
-            - "business"
+            - "cpf"
+            - "cnpj"
       responses:
         "200":
           description: "Success"
@@ -39,7 +39,7 @@ paths:
         "400":
           description: "Bad request"
           schema:
-            $ref: "#/definitions/Document"
+            $ref: "#/definitions/Error"
         "500":
           description: "Internal server error"
           schema:
@@ -50,7 +50,7 @@ paths:
             $ref: "#/definitions/Error"
     post:
       summary: "Validate a document number"
-      description: "Validate a document number (CPF/CNPJ)"
+      description: "Validate a document number from types available"
       operationId: "validateDocument"
       consumes:
         - "application/json"
@@ -63,8 +63,8 @@ paths:
           required: true
           type: "string"
           enum:
-            - "consumer"
-            - "business"
+            - "cpf"
+            - "cnpj"
         - name: "documentNumber"
           in: "body"
           description: "Document number to be validated"
@@ -79,7 +79,7 @@ paths:
         "400":
           description: "Bad request"
           schema:
-            $ref: "#/definitions/Document"
+            $ref: "#/definitions/Error"
         "500":
           description: "Internal server error"
           schema:
