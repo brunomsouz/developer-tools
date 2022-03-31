@@ -1,11 +1,11 @@
 package io.souz.developertools.exception;
 
-import io.souz.developertools.handler.MessageHandler;
+import io.souz.developertools.util.MessageFormatterUtil;
 
 public abstract class AbstractException extends RuntimeException {
 
-    public AbstractException(String message) {
-        super(MessageHandler.getMessageForLocale(message));
+    protected AbstractException(String message) {
+        super(MessageFormatterUtil.getMessageForLocale(message));
     }
 
 }
