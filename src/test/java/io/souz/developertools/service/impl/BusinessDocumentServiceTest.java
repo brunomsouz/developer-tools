@@ -8,17 +8,17 @@ import org.junit.jupiter.api.Test;
 import static io.souz.developertools.TestScenarios.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class BusinessDocumentServiceTest {
+class BusinessDocumentServiceTest {
 
     private DocumentService documentService;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         this.documentService = new BusinessDocumentService();
     }
 
     @Test
-    public void shouldGenerateValidDocument() {
+    void shouldGenerateValidDocument() {
         Document document = this.documentService.generateDocument();
 
         assertEquals(14, document.getDocumentNumber().length());
@@ -26,15 +26,15 @@ public class BusinessDocumentServiceTest {
     }
 
     @Test
-    public void shouldValidateDocumentAndReturnTrueWhenValid() {
-        Boolean isValid = this.documentService.validateDocument(getDocument(CNPJ_DOCUMENT_VALID));
+    void shouldValidateDocumentAndReturnTrueWhenValid() {
+        boolean isValid = this.documentService.validateDocument(getDocument(CNPJ_DOCUMENT_VALID));
 
         assertTrue(isValid);
     }
 
     @Test
-    public void shouldValidateDocumentAndReturnFalseWhenInvalid() {
-        Boolean isValid = this.documentService.validateDocument(getDocument(CNPJ_DOCUMENT_INVALID));
+    void shouldValidateDocumentAndReturnFalseWhenInvalid() {
+        boolean isValid = this.documentService.validateDocument(getDocument(CNPJ_DOCUMENT_INVALID));
 
         assertFalse(isValid);
     }
