@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Random;
 
-@Service
+@Service("cpf")
 public class ConsumerDocumentService implements DocumentService {
 
     @Override
@@ -27,10 +27,12 @@ public class ConsumerDocumentService implements DocumentService {
     }
 
     @Override
-    public Boolean validateDocument(Document document) {
+    public boolean validateDocument(Document document) {
         String documentNumber = document.getDocumentNumber();
 
-        if (documentNumber.matches("(\\d)\\1{10}")) {
+        if (documentNumber.length() != 11
+                || !documentNumber.matches("^[0-9]{11}$")
+                || documentNumber.matches("(\\d)\\1{10}")) {
             return false;
         }
 

@@ -2,9 +2,11 @@ package io.souz.developertools.service.impl;
 
 import io.souz.developertools.model.Document;
 import io.souz.developertools.service.DocumentService;
+import org.springframework.stereotype.Service;
 
 import java.util.Random;
 
+@Service("cnpj")
 public class BusinessDocumentService implements DocumentService {
 
     @Override
@@ -27,10 +29,12 @@ public class BusinessDocumentService implements DocumentService {
     }
 
     @Override
-    public Boolean validateDocument(Document document) {
+    public boolean validateDocument(Document document) {
         String documentNumber = document.getDocumentNumber();
 
-        if (documentNumber.matches("(\\d)\\1{13}")) {
+        if (documentNumber.length() != 14
+                || !documentNumber.matches("^[0-9]{14}$")
+                || documentNumber.matches("(\\d)\\1{13}")) {
             return false;
         }
 
