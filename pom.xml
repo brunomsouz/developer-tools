@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.6.4</version>
+		<version>2.6.5</version>
 		<relativePath/>
 	</parent>
 
@@ -20,6 +20,12 @@
 
 		<swagger-core.version>1.6.5</swagger-core.version>
 		<junit-jupiter-engine.version>5.8.2</junit-jupiter-engine.version>
+
+		<sonar.coverage.exclusions>
+			src/main/java/io/souz/developertools/exception/**/*.java,
+			src/main/java/io/souz/developertools/service/DynamicDocumentService.java,
+			src/main/java/io/souz/developertools/DeveloperToolsApplication.java
+		</sonar.coverage.exclusions>
 	</properties>
 
 	<dependencies>
@@ -46,6 +52,14 @@
 			<version>${junit-jupiter-engine.version}</version>
 			<scope>test</scope>
 		</dependency>
+
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.22</version>
+			<scope>provided</scope>
+		</dependency>
+
 	</dependencies>
 
 	<build>
