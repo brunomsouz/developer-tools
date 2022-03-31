@@ -5,11 +5,9 @@ import io.souz.developertools.service.DocumentService;
 import org.springframework.stereotype.Service;
 
 import java.util.Random;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-@Service
-public class DocumentServiceImpl implements DocumentService {
+@Service("cpf")
+public class ConsumerDocumentService implements DocumentService {
 
     @Override
     public Document generateDocument() {
@@ -21,26 +19,20 @@ public class DocumentServiceImpl implements DocumentService {
             builder.append(random.nextInt(10));
         }
 
-        int firstVerifier = this.generateFirstVerifier(builder.toString());
-
-        builder.append(firstVerifier);
-
-        int secondVerifier = this.generateSecondVerifier(builder.toString());
-
-        builder.append(secondVerifier);
+        builder.append(this.generateFirstVerifier(builder.toString()));
+        builder.append(this.generateSecondVerifier(builder.toString()));
 
         return new Document()
-                .document(builder.toString());
+                .documentNumber(builder.toString());
     }
 
     @Override
-    public Boolean validateDocument(Document document) {
-        String documentNumber = document.getDocument();
+    public boolean validateDocument(Document document) {
+        String documentNumber = document.getDocumentNumber();
 
-        Pattern pattern = Pattern.compile("(\\d)\\1{10}");
-        Matcher matcher = pattern.matcher(documentNumber);
-
-        if (matcher.matches()) {
+        if (documentNumber.length() != 11
+                || !documentNumber.matches("^[0-9]{11}$")
+                || documentNumber.matches("(\\d)\\1{10}")) {
             return false;
         }
 
@@ -58,13 +50,7 @@ public class DocumentServiceImpl implements DocumentService {
             sum += Character.getNumericValue(document.charAt(i)) * (10 - i);
         }
 
-        int verifier = (sum * 10) % 11;
-
-        if (verifier > 9) {
-            verifier = 0;
-        }
-
-        return verifier;
+        return this.calculateVerifierFromSum(sum);
     }
 
     private int generateSecondVerifier(String document) {
@@ -74,6 +60,10 @@ public class DocumentServiceImpl implements DocumentService {
             sum += Character.getNumericValue(document.charAt(i)) * (11 - i);
         }
 
+        return this.calculateVerifierFromSum(sum);
+    }
+
+    private int calculateVerifierFromSum(int sum) {
         int verifier = (sum * 10) % 11;
 
         if (verifier > 9) {

@@ -6,6 +6,6 @@ public interface DocumentService {
 
     Document generateDocument();
 
-    Boolean validateDocument(Document document);
+    boolean validateDocument(Document document);
 
 }

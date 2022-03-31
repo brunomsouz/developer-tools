@@ -5,18 +5,27 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.6.4</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<version>2.6.5</version>
+		<relativePath/>
 	</parent>
 
 	<groupId>io.souz</groupId>
 	<artifactId>developer-tools</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<name>developer-tools</name>
 	<description>Tools for developers</description>
 
 	<properties>
 		<java.version>17</java.version>
+
+		<swagger-core.version>1.6.5</swagger-core.version>
+		<junit-jupiter-engine.version>5.8.2</junit-jupiter-engine.version>
+
+		<sonar.coverage.exclusions>
+			src/main/java/io/souz/developertools/exception/**/*.java,
+			src/main/java/io/souz/developertools/service/DynamicDocumentService.java,
+			src/main/java/io/souz/developertools/DeveloperToolsApplication.java
+		</sonar.coverage.exclusions>
 	</properties>
 
 	<dependencies>
@@ -34,8 +43,23 @@
 		<dependency>
 			<groupId>io.swagger</groupId>
 			<artifactId>swagger-core</artifactId>
-			<version>1.6.5</version>
+			<version>${swagger-core.version}</version>
 		</dependency>
+
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-engine</artifactId>
+			<version>${junit-jupiter-engine.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.22</version>
+			<scope>provided</scope>
+		</dependency>
+
 	</dependencies>
 
 	<build>
@@ -96,6 +120,12 @@
 						</configuration>
 					</execution>
 				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.22.2</version>
 			</plugin>
 		</plugins>
 	</build>
